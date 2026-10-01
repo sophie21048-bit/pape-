@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Для папы — с днём рождения</title>
+<style>
+:root{
+  --cream:#f5e6d5;
+  --peach:#dca98c;
+  --dust:#b98272;
+  --wine:#713f43;
+  --burgundy:#542d35;
+  --brown:#4d3532;
+  --paper:#f8eee3;
+  --line:rgba(84,45,53,.18);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Georgia,"Times New Roman",serif;color:var(--brown)}
+body{
+  background:
+    radial-gradient(circle at 15% 10%,rgba(220,169,140,.38),transparent 30%),
+    radial-gradient(circle at 85% 80%,rgba(113,63,67,.18),transparent 32%),
+    var(--cream);
+}
+button{font:inherit}
+.page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px}
+.hidden{display:none!important}
+
+/* FIRST SCREEN */
+.intro{
+  width:100%;
+  min-height:100svh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  text-align:center;
+}
+.intro-card{
+  position:relative;
+  width:min(720px,100%);
+  margin:0 auto;
+  padding:68px 28px 60px;
+  background:rgba(248,238,227,.72);
+  border:1px solid var(--line);
+  box-shadow:0 20px 70px rgba(84,45,53,.12);
+}
+.intro-card:before,.intro-card:after{
+  content:"";position:absolute;left:50%;transform:translateX(-50%);
+  width:70px;height:1px;background:var(--wine);opacity:.45
+}
+.intro-card:before{top:38px}.intro-card:after{bottom:38px}
+.small-title{
+  text-transform:uppercase;letter-spacing:.28em;font-size:11px;
+  color:var(--wine);margin-bottom:22px
+}
+h1{font-size:clamp(40px,8vw,76px);line-height:1.02;font-weight:400;margin:0;color:var(--burgundy)}
+.intro-name{font-size:clamp(25px,5vw,43px);font-style:italic;color:var(--wine);margin:12px 0 24px}
+.intro-text{
+  max-width:500px;margin:0 auto 34px;font-size:17px;line-height:1.75;
+  color:#624846
+}
+.start{
+  border:1px solid var(--wine);background:var(--wine);color:#f8eee3;
+  padding:14px 30px;cursor:pointer;letter-spacing:.08em;
+  transition:.25s;box-shadow:0 8px 24px rgba(84,45,53,.16)
+}
+.start:hover{background:var(--burgundy);transform:translateY(-2px)}
+
+/* CARDS SCREEN */
+.gallery{
+  width:min(1050px,100%);padding:42px 0 60px;margin:auto
+}
+.gallery-head{text-align:center;margin-bottom:32px}
+.back{
+  background:none;border:0;color:var(--wine);cursor:pointer;
+  font-size:13px;letter-spacing:.08em;margin-bottom:18px
+}
+.gallery-head h2{font-size:clamp(31px,5vw,48px);font-weight:400;color:var(--burgundy);margin:0 0 9px}
+.gallery-head p{margin:0;color:#765854;font-size:15px}
+.grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:15px
+}
+.card{
+  position:relative;min-height:190px;padding:0;border:1px solid rgba(84,45,53,.16);
+  background:var(--paper);cursor:pointer;overflow:hidden;
+  box-shadow:0 7px 25px rgba(84,45,53,.08);
+  transition:transform .3s,box-shadow .3s
+}
+.card:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(84,45,53,.15)}
+.photo{
+  height:128px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#d9a98d,#b8796d)
+}
+.photo:after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(145deg,rgba(255,239,219,.18),rgba(84,45,53,.22))
+}
+.photo span{
+  position:absolute;inset:0;display:grid;place-items:center;z-index:1;
+  color:rgba(248,238,227,.82);font-size:12px;letter-spacing:.13em;
+  text-transform:uppercase
+}
+.card:nth-child(2n) .photo{background:linear-gradient(135deg,#c58d7c,#79505a)}
+.card:nth-child(3n) .photo{background:linear-gradient(135deg,#e0b08d,#8b5c58)}
+.card:nth-child(4n) .photo{background:linear-gradient(135deg,#b77769,#69414a)}
+.card-label{padding:14px 12px 15px;text-align:left}
+.card-label b{font-size:15px;font-weight:400;color:var(--burgundy)}
+.card-label small{display:block;margin-top:5px;color:#94706a;font-size:11px;letter-spacing:.04em}
+
+/* MODAL */
+.modal{
+  position:fixed;inset:0;z-index:20;padding:20px;
+  background:rgba(58,31,35,.62);backdrop-filter:blur(7px);
+  display:flex;align-items:center;justify-content:center
+}
+.modal-box{
+  width:min(650px,100%);max-height:92vh;overflow:auto;
+  background:var(--paper);box-shadow:0 25px 80px rgba(40,20,24,.35);
+  position:relative
+}
+.close{
+  position:absolute;right:12px;top:10px;z-index:3;
+  width:38px;height:38px;border:0;border-radius:50%;
+  background:rgba(248,238,227,.88);color:var(--burgundy);
+  font-size:24px;cursor:pointer
+}
+.modal-photo{
+  height:min(52vh,390px);position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#d9a98d,#713f43)
+}
+.modal-photo:after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(55,30,34,.2),transparent 55%)
+}
+.modal-content{padding:30px 34px 36px;text-align:center}
+.modal-number{font-size:11px;letter-spacing:.2em;color:#9a7168;text-transform:uppercase}
+.modal-title{font-size:28px;font-weight:400;color:var(--burgundy);margin:8px 0 15px}
+.modal-wish{font-size:18px;line-height:1.75;color:#624846;margin:0}
+.dots{display:flex;justify-content:center;gap:7px;margin-top:24px}
+.dot{width:6px;height:6px;border-radius:50%;background:#caa398}
+.dot.active{background:var(--wine)}
+
+@media(max-width:760px){
+  .grid{grid-template-columns:repeat(2,1fr);gap:11px}
+  .card{min-height:175px}.photo{height:112px}
+  .gallery{padding-top:25px}
+}
+@media(max-width:420px){
+  .page{padding:15px}
+  .intro{min-height:100svh;padding:16px}
+  .intro-card{padding:54px 20px 48px}
+  .intro-text{font-size:15px}
+  .grid{gap:9px}.card-label{padding:11px 9px}
+  .card-label b{font-size:13px}
+  .modal-content{padding:25px 20px 30px}
+  .modal-wish{font-size:16px}
+}
+</style>
+</head>
+
+<body>
+
+<section class="intro" id="intro">
+  <div class="intro-card">
+    <div class="small-title">для самого родного человека</div>
+    <h1>С днём<br>рождения</h1>
+    <div class="intro-name">Олег</div>
+    <p class="intro-text">
+      Папа, этот маленький сайт — как коробочка с тёплыми воспоминаниями.
+      Здесь собраны слова, которые хочется сказать тебе сегодня.
+    </p>
+    <button class="start" id="startButton" type="button">Открыть поздравление</button>
+  </div>
+</section>
+
+<section class="gallery hidden" id="gallery">
+  <div class="gallery-head">
+    <button class="back" id="backButton" type="button">← На главную</button>
+    <h2>Для тебя, папа</h2>
+    <p>Нажми на любую карточку — внутри тебя ждёт отдельное пожелание.</p>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<div class="modal hidden" id="modal" onclick="closeByBackdrop(event)">
+  <div class="modal-box">
+    <button class="close" id="closeButton" type="button" aria-label="Закрыть">×</button>
+    <div class="modal-photo" id="modalPhoto">
+      <span style="position:absolute;inset:0;display:grid;place-items:center;color:rgba(248,238,227,.82);letter-spacing:.12em;font-size:12px;z-index:1">ФОТО</span>
+    </div>
+    <div class="modal-content">
+      <div class="modal-number" id="modalNumber"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <p class="modal-wish" id="modalWish"></p>
+      <div class="dots" id="dots"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const wishes=[
+ {title:"Здоровья",wish:"Пусть здоровья хватает на всё, что тебе хочется делать, а каждый новый день приносит спокойствие и силы."},
+ {title:"Семейного тепла",wish:"Пусть рядом всегда будут люди, с которыми можно быть собой, смеяться, разговаривать обо всём и просто молчать."},
+ {title:"Радости",wish:"Желаю замечать больше хорошего в обычных днях и находить поводы улыбаться даже тогда, когда день начинается совсем обычно."},
+ {title:"Новых впечатлений",wish:"Пусть впереди будет ещё много мест, которые захочется увидеть, дорог, по которым захочется проехать, и историй, которые потом приятно вспоминать."},
+ {title:"Спокойствия",wish:"Пусть в жизни будет больше тихих вечеров, приятных разговоров и ощущения, что всё самое важное находится рядом."},
+ {title:"Удачи",wish:"Желаю, чтобы нужные возможности появлялись вовремя, решения давались легко, а задуманное постепенно становилось реальностью."},
+ {title:"Времени для себя",wish:"Пусть у тебя всегда находится время на любимые занятия, отдых и маленькие радости, которые делают жизнь твоей."},
+ {title:"Гордости",wish:"Пусть всё, что ты уже сделал для своей семьи и для себя, напоминает тебе, сколько всего хорошего ты создал своими руками."},
+ {title:"Уюта",wish:"Желаю возвращаться домой с ощущением тепла и знать, что здесь тебя любят, ждут и всегда рады тебе."},
+ {title:"Сил",wish:"Пусть сил хватает не только на обязанности, но и на мечты, планы и всё то, что давно хотелось попробовать."},
+ {title:"Хороших людей",wish:"Пусть рядом встречаются надёжные, добрые и искренние люди, с которыми легко строить планы и приятно проводить время."},
+ {title:"Счастья",wish:"Желаю тебе простого, настоящего счастья — такого, которое чувствуется не в больших событиях, а в каждом хорошем дне."}
+];
+
+const colors=[
+["#d6a186","#714148"],["#c88e7d","#80535a"],["#ddb092","#70454b"],
+["#bd8075","#633b43"],["#e0b396","#795052"],["#c99582","#6f4048"],
+["#d4a084","#75484e"],["#bf8278","#70434a"],["#dfb194","#794c4f"],
+["#c58b7e","#623940"],["#d8a48a","#76464c"],["#c18175","#693d46"]
+];
+
+let current=0;
+
+const intro=document.getElementById("intro");
+const gallery=document.getElementById("gallery");
+const modal=document.getElementById("modal");
+
+function openGallery(){
+  intro.classList.add("hidden");
+  gallery.classList.remove("hidden");
+  window.scrollTo({top:0,behavior:"instant"});
+}
+function goBack(){
+  modal.classList.add("hidden");
+  gallery.classList.add("hidden");
+  intro.classList.remove("hidden");
+  document.body.style.overflow="";
+  window.scrollTo({top:0,behavior:"instant"});
+}
+function openCard(i){
+  current=i;
+  renderModal();
+  modal.classList.remove("hidden");
+  document.body.style.overflow="hidden";
+}
+function closeModal(){
+  modal.classList.add("hidden");
+  document.body.style.overflow="";
+}
+function closeByBackdrop(e){
+  if(e.target===modal) closeModal();
+}
+
+document.getElementById("startButton").addEventListener("click",openGallery);
+document.getElementById("backButton").addEventListener("click",goBack);
+document.getElementById("closeButton").addEventListener("click",closeModal);
+function renderModal(){
+  const item=wishes[current];
+  const c=colors[current];
+  document.getElementById("modalNumber").textContent=`${String(current+1).padStart(2,"0")} / ${wishes.length}`;
+  document.getElementById("modalTitle").textContent=item.title;
+  document.getElementById("modalWish").textContent=item.wish;
+  document.getElementById("modalPhoto").style.background=
+    `linear-gradient(135deg,${c[0]},${c[1]})`;
+
+  document.getElementById("dots").innerHTML=wishes.map((_,i)=>
+    `<span class="dot ${i===current?"active":""}"></span>`).join("");
+}
+
+document.getElementById("grid").innerHTML=wishes.map((item,i)=>`
+  <button class="card" type="button" data-card="${i}" aria-label="Открыть пожелание: ${item.title}">
+    <div class="photo" style="background:linear-gradient(135deg,${colors[i][0]},${colors[i][1]})">
+      <span>ФОТО ${i+1}</span>
+    </div>
+    <div class="card-label">
+      <b>${item.title}</b>
+      <small>нажми, чтобы открыть</small>
+    </div>
+  </button>
+`).join("");
+
+document.getElementById("grid").addEventListener("click",e=>{
+  const card=e.target.closest("[data-card]");
+  if(card) openCard(Number(card.dataset.card));
+});
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")closeModal();
+  if(document.getElementById("modal").classList.contains("hidden"))return;
+  if(e.key==="ArrowRight"){current=(current+1)%wishes.length;renderModal()}
+  if(e.key==="ArrowLeft"){current=(current-1+wishes.length)%wishes.length;renderModal()}
+});
+</script>
+</body>
+</html>
